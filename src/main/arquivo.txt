@@ -1,0 +1,62 @@
+Table: aaaaaaaa_aaaaaaaaa
+Columns:
+id_funcionario int(10) UN PK 
+id_secao int(10) UN 
+id_profissao int(10) UN 
+id_cargo int(10) UN 
+id_origem int(10) UN 
+id_funcao int(10) UN 
+id_categoria_funcional int(10) UN 
+id_grau_instrucao int(10) UN 
+id_grupo_funcionario int(3) 
+avaliador enum('S','N') 
+data_admissao date 
+tel_residencial varchar(15) 
+matricula varchar(14) 
+cpf varchar(14) 
+portaria varchar(80) 
+atividade enum('','AP','FI','-') 
+email varchar(35) 
+local_trabalho enum('','SE','TR','CA','DS','-') 
+data_nascimento date 
+tipo enum('OF','RH') 
+ativo enum('S','N') 
+cnh varchar(11) 
+cnh_cat char(2) 
+cnh_val date 
+rg varchar(20) 
+rg_estado int(10) UN 
+salario float(10,2) 
+fk_banco decimal(10,0) 
+num_agencia varchar(10) 
+num_conta varchar(10) 
+dig_conta char(1) 
+tel_celular varchar(15) 
+tel_comercial varchar(15) 
+tel_cel_institucional varchar(15) 
+ramal varchar(15) 
+fk_unidade int(10) UN 
+fk_unidade_copia int(10) 
+obs text 
+det_graduacao varchar(255) 
+det_graduacao_outras text 
+det_especializacao varchar(255) 
+det_doutorado varchar(255) 
+det_mestrado varchar(255) 
+cursos_extracurricular text 
+naturalidade varchar(80) 
+nacionalidade varchar(80) 
+pis varchar(11) 
+tite varchar(15) 
+tite_z varchar(15) 
+tite_sec varchar(15) 
+tite_uf char(2) 
+filhos char(1) 
+filhos1_nome varchar(80) 
+filhos2_nome varchar(80) 
+filhos3_nome varchar(80) 
+filhos1_data date 
+filhos2_data date 
+filhos3_data date 
+bonus enum('S','N') 
+tem_filhos char(1)
