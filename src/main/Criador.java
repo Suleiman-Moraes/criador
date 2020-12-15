@@ -9,10 +9,27 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * 
+ * @author Suleiman Moraes
+ * Ele não cria pastas
+ *
+ */
 public class Criador {
 	
-	static String packageNamePrincipal = "br.com.memora.ematerconsultaserver.api";
-	static String caminhoProjetoRaiz = "C:\\areatrabalho\\projetos\\Eclipse\\emater\\emater-consulta-server\\src\\main\\java\\br\\com\\memora\\ematerconsultaserver\\api";
+	static String packageNamePrincipal = "br.com.memora";
+	static String caminhoProjetoRaiz = "C:\\areatrabalho\\projetos\\Eclipse\\emater\\portal-server\\src\\main\\java\\br\\com\\memora";
+	static String packageModel = "model.pesquisa";
+	static String caminhoModel = "model\\pesquisa";
+	
+	static String packageService = "service.pesquisa";
+	static String caminhoService = "service\\pesquisa";
+	
+	static String packageServiceImpl = "service.impl.pesquisa";
+	static String caminhoServiceImpl = "service\\impl\\pesquisa";
+	
+	static String packageRepository = "repository.pesquisa";
+	static String caminhoRepository = "repository\\pesquisa";
 	
 	static Set<String> imports = new TreeSet<>();
 	
@@ -93,14 +110,14 @@ public class Criador {
 				"import org.springframework.web.bind.annotation.RequestMapping;\r\n" + 
 				"import org.springframework.web.bind.annotation.RestController;\r\n" + 
 				"\r\n" + 
-				"import " + packageNamePrincipal + ".controller.abstracts.ManterControllerBeanBasic;\r\n" + 
-				"import " + packageNamePrincipal + ".model." + nomeDaClasse + ";\r\n" + 
-				"import " + packageNamePrincipal + ".service." + nomeDaClasse + "Service;\r\n" + 
+				"import " + packageNamePrincipal + ".controller.abstracts.ControllerBasic;\r\n" + 
+				"import " + packageNamePrincipal + "." + packageModel + "." + nomeDaClasse + ";\r\n" + 
+				"import " + packageNamePrincipal + "." + packageService + "." + nomeDaClasse + "Service;\r\n" + 
 				"import lombok.Getter;\r\n" + 
 				"\r\n" + 
 				"@RestController\r\n" + 
-				"@RequestMapping(\"/api/" + nomeDaClasse.toLowerCase() + "\")\r\n" + 
-				"public class " + nomeDaClasse + "Controller extends ManterControllerBeanBasic<" + nomeDaClasse + ">{\r\n" + 
+				"@RequestMapping(\"/rest/" + nomeDaClasse.toLowerCase() + "\")\r\n" + 
+				"public class " + nomeDaClasse + "Controller extends ControllerBasic<" + nomeDaClasse + ">{\r\n" + 
 				"\r\n" + 
 				"	@Getter\r\n" + 
 				"	@Autowired\r\n" + 
@@ -110,77 +127,61 @@ public class Criador {
 	}
 	
 	private static void getRepository(String nomeDaClasse, Linha pk) {
-		String classe = "package " + packageNamePrincipal + "." + "repository" + ";\n" + 
+		String classe = "package " + packageNamePrincipal + "." + packageRepository + ";\n" + 
 				"\r\n" + 
 				"import org.springframework.data.jpa.repository.JpaRepository;\r\n" + 
 				"\r\n" + 
-				"import " + packageNamePrincipal + ".model." + nomeDaClasse + ";\r\n" + 
+				"import " + packageNamePrincipal + "." + packageModel + "." + nomeDaClasse + ";\r\n" + 
 				"\r\n" + 
 				"public interface " + nomeDaClasse + "Repository extends JpaRepository<" + nomeDaClasse + ", " + pk.getTipo() + ">{}";
-		incluir(classe, caminhoProjetoRaiz + "\\repository\\" + nomeDaClasse + "Repository.java");
+		incluir(classe, caminhoProjetoRaiz + "\\" + caminhoRepository + "\\" + nomeDaClasse + "Repository.java");
 	}
 	
 	private static void getService(String nomeDaClasse, Linha pk) {
-		String classe = "package " + packageNamePrincipal + "." + "service" + ";\n" + 
+		String classe = "package " + packageNamePrincipal + "." + packageService + ";\n" + 
 				"\r\n" + 
-				"import org.springframework.stereotype.Component;\r\n" + 
+				"import org.springframework.transaction.annotation.Transactional;\r\n" + 
 				"\r\n" + 
-				"import " + packageNamePrincipal + ".model." + nomeDaClasse + ";\r\n" +  
-				"import " + packageNamePrincipal + ".util.CRUDPadraoService;\r\n" + 
+				"import " + packageNamePrincipal + "." + packageModel + "." + nomeDaClasse + ";\r\n" +  
+				"import " + packageNamePrincipal + ".util.CrudPadraoService;\r\n" + 
 				"\r\n" + 
-				"@Component\r\n" + 
-				"public interface " + nomeDaClasse + "Service extends CRUDPadraoService<" + nomeDaClasse + ">{}\r\n";
-		incluir(classe, caminhoProjetoRaiz + "\\service\\" + nomeDaClasse + "Service.java");
+				"@Transactional\r\n" + 
+				"public interface " + nomeDaClasse + "Service extends CrudPadraoService<" + nomeDaClasse + ">{}\r\n";
+		incluir(classe, caminhoProjetoRaiz + "\\" + caminhoService + "\\" + nomeDaClasse + "Service.java");
 	}
 	
 	private static void getServiceImp(String nomeDaClasse, Linha pk) {
-		String classe = "package " + packageNamePrincipal + "." + "service.imp" + ";\n" + 
+		String classe = "package " + packageNamePrincipal + "." + packageServiceImpl + ";\n" + 
 				"\r\n" + 
 				"import org.apache.commons.logging.Log;\r\n" + 
 				"import org.apache.commons.logging.LogFactory;\r\n" + 
 				"import org.springframework.beans.factory.annotation.Autowired;\r\n" + 
 				"import org.springframework.stereotype.Service;\r\n" + 
 				"\r\n" + 
-				"import " + packageNamePrincipal + ".repository.hql.GenericDAO;\r\n" + 
-				"import " + packageNamePrincipal + ".service." + nomeDaClasse + "Service;\r\n" + 
-				"import " + packageNamePrincipal + ".model." + nomeDaClasse + ";\r\n" + 
-				"import " + packageNamePrincipal + ".repository." + nomeDaClasse + "Repository;\r\n" + 
+				"import " + packageNamePrincipal + "." + packageService + "." + nomeDaClasse + "Service;\r\n" + 
+				"import " + packageNamePrincipal + "." + packageRepository + "." + nomeDaClasse + "Repository;\r\n" + 
 				"import lombok.Getter;\r\n" + 
 				"\r\n" + 
-				"@Getter\r\n" + 
 				"@Service\r\n" + 
-				"public class " + nomeDaClasse + "ServiceImp implements " + nomeDaClasse + "Service{\r\n" + 
+				"public class " + nomeDaClasse + "ServiceImpl implements " + nomeDaClasse + "Service{\r\n" + 
 				"\r\n" + 
 				"	private static final Log logger = LogFactory.getLog(" + nomeDaClasse + "Service.class);\r\n" + 
 				"	\r\n" + 
+				"	@Getter\r\n" + 
 				"	@Autowired\r\n" + 
-				"	private " + nomeDaClasse + "Repository persistencia;\r\n" + 
-				"	\r\n" + 
-				"	@Autowired\r\n" + 
-				"	private GenericDAO genericDAO;\r\n" + 
-				"	\r\n" + 
-				"	@Override\r\n" + 
-				"	public " + nomeDaClasse + " findByField(String field, Object value) {\r\n" + 
-				"		try {\r\n" + 
-				"			" + nomeDaClasse + " objeto = genericDAO.findByField(" + nomeDaClasse + ".class, field, value);\r\n" + 
-				"			return objeto;\r\n" + 
-				"		} catch (Exception e) {\r\n" + 
-				"			logger.warn(\"findByField \" + e.getMessage());\r\n" + 
-				"			return null;\r\n" + 
-				"		}\r\n" + 
-				"	}\r\n" + 
+				"	private " + nomeDaClasse + "Repository repository;\r\n" + 
 				"	\r\n" + 
 				"	@Override\r\n" + 
 				"	public Log getLogger() {\r\n" + 
 				"		return logger;\r\n" + 
 				"	}\r\n" + 
 				"}\r\n";
-		incluir(classe, caminhoProjetoRaiz + "\\service\\imp\\" + nomeDaClasse + "ServiceImp.java");
+		incluir(classe, caminhoProjetoRaiz + "\\" + caminhoServiceImpl + "\\" + nomeDaClasse + "ServiceImpl.java");
 	}
 	
 	private static void getModel(String nomeDaTabela, String nomeDaClasse, List<Linha> linhas, 
 			Linha pk) {
-		String classe = "package " + packageNamePrincipal + "." + "model" + ";\n" +
+		String classe = "package " + packageNamePrincipal + "." + packageModel + ";\n" +
 				"\n" +
 				"import java.io.Serializable;\n" +
 				"\n" +
@@ -249,7 +250,7 @@ public class Criador {
 				"	}\n" +
 				"}\n" +
 				"\n";
-		incluir(classe, caminhoProjetoRaiz + "\\model\\" + nomeDaClasse + ".java");
+		incluir(classe, caminhoProjetoRaiz + "\\" + caminhoModel + "\\" + nomeDaClasse + ".java");
 	}
 	
 	private static void incluir(String classe, String caminho){
@@ -274,14 +275,14 @@ public class Criador {
 	
 	private static String getTipo(String tipoBd) {
 		if(tipoBd.contains("int") || tipoBd.contains("tinyint")) {
-			return "Integer";
+			return "Long";
 		}
 		if(tipoBd.contains("decimal") || tipoBd.contains("float")) {
 			return "Double";
 		}
 		if(tipoBd.contains("date")) {
-			addImport("java.util.Date");
-			return "Date";
+			addImport("java.time.LocalDateTime");
+			return "LocalDateTime";
 		}
 		return "String";
 	}
