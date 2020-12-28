@@ -281,8 +281,8 @@ public class Criador {
 			return "Double";
 		}
 		if(tipoBd.contains("date")) {
-			addImport("java.time.LocalDateTime");
-			return "LocalDateTime";
+			addImport("java.util.Date");
+			return "Date";
 		}
 		return "String";
 	}
